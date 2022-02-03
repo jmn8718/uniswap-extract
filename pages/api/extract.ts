@@ -1,7 +1,6 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { extractData } from '../../utils/pdf';
-import { saveData } from '../../utils/storage';
+import { request } from '../../utils/request';
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,11 +17,14 @@ export default async function handler(
     if (!result) {
       throw new Error('Error extracting the data');
     }
-    await saveData(result);
-    console.log(result)
+    await request({
+      url: '/api/record',
+      method: 'POST',
+      data: result,
+    });
     return res.json(result);
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    console.error(error.message);
     return res.status(500).send({
       success: false
     })
