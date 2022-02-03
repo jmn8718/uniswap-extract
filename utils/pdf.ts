@@ -13,6 +13,7 @@ export const extractData = async (account: string, coin: string): Promise<Data |
     await page.waitForSelector(selector)
     const nodes = await page.$$(selector);
     const content = await Promise.all(nodes.map((element) => element.innerText()))
+    console.log(content);
     data = content.reduce((acc, current, index) => {
       const [wethAmount, wethKey, usdtAmount, usdtKey] = current.split('\n')
       return {
@@ -23,6 +24,7 @@ export const extractData = async (account: string, coin: string): Promise<Data |
         }
       }
     }, {});
+    console.log({ data })
   } catch (error) {
     console.log(error)
   } finally {

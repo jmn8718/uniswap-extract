@@ -14,6 +14,7 @@ export default async function handler(
       return res.status(401).json({ success: false });
     }
     const result = await extractData('0x5B2C7F7b685C3Eb8a4e693b755432be54D647C86', 'WETH');
+    console.log({ result });
     if (!result) {
       throw new Error('Error extracting the data');
     }
