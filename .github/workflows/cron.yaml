@@ -1,0 +1,13 @@
+name: 15-minute-cron
+on:
+  schedule:
+    - cron: '0 0 * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call API to extract data
+        run: |
+          curl --request GET \
+          --url '${{ secrets.API_URL }}/api/extract' \
+          --header 'Authorization: ${{ secrets.API_SECRET_KEY }}'
