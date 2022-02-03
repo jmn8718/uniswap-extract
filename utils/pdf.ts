@@ -1,6 +1,7 @@
 import * as playwright from 'playwright-aws-lambda';
+import { Data } from './types';
 
-export const extractData = async (account: string, coin: string) => {
+export const extractData = async (account: string, coin: string): Promise<Data | undefined> => {
   let browser = null;
   let data = null;
   try {
@@ -17,8 +18,8 @@ export const extractData = async (account: string, coin: string) => {
       return {
         ...acc,
         [index === 0 ? 'liquidity' : 'earned']: {
-          [wethKey]: wethAmount,
-          [usdtKey]: usdtAmount
+          [wethKey]: parseFloat(wethAmount.replace(',', '')).toFixed(4),
+          [usdtKey]: parseFloat(usdtAmount.replace(',', '')).toFixed(4)
         }
       }
     }, {});
@@ -29,5 +30,5 @@ export const extractData = async (account: string, coin: string) => {
       await browser.close()
     }
   }
-  return data;
+  return data as Data;
 }

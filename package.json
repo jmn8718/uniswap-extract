@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "googleapis": "^94.0.0",
     "next": "11.0.1",
     "playwright": "~1.18.1",
     "playwright-aws-lambda": "^0.7.0",
