@@ -8,13 +8,14 @@ export default async function handler(
 ) {
   try {
     const { authorization } = req.headers
-    if (authorization === process.env.API_SECRET_KEY) {
-      res.status(401).json({ success: false });
+    if (authorization !== process.env.API_SECRET_KEY) {
+      return res.status(401).json({ success: false });
     }
     const result = await extractData('0x5B2C7F7b685C3Eb8a4e693b755432be54D647C86', 'WETH');
     if (!result) {
-      throw new Error();
+      throw new Error('Error extracting the data');
     }
+    console.log(result)
     return res.json(result);
   } catch (error) {
     return res.status(500).send({
